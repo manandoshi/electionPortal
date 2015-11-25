@@ -1,15 +1,32 @@
+var logo = 0;
+var pics = 4;
+
+$(document).ready(function()
+{
+  for (var i = 0; i < pics; i++) {
+    (function(i)
+    {
+        $($(".regb").get(i)).on("click", function()
+        {
+          console.log("Hey");
+          logo = i+1;
+        })
+    })(i);
+  };
+}); 
+
 var submitreg =function() {
   var name=$('#name_of_team').val();
-  var logo=$('#logoID').val();
   var MInum=$('#mi_number').val();
-  var data = {name_of_team : name, 2 : logo, mi_number : MInum};
+  var data = {name_of_team : name, logoID : logo, mi_number : MInum};
+  console.log(data);
   $.post( '/teamdata', data, function(recv) {
          if(recv[error] == 0)
          {
             alert("Team Added Successfully");
             $('#name_of_team').val("");
-            $('#logoID').val("");
             $('#mi_number').val("");
+            logo = 0;
          }
        },
        'json' // I expect a JSON response
@@ -26,6 +43,4 @@ var login = function(){
        },
        'json' // I expect a JSON response
     );
-
 }
-  

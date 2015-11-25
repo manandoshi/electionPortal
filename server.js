@@ -9,18 +9,17 @@ var connection = mysql.createConnection({
 		password : 'Qwerty@314',
 		database : 'mi2k15',
 	});
-
 function makeid()
 {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for( var i=0; i < 5; i++ )
+    for( var i=0; i < 6; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
 }
-
+var allowedID=makeid();
 console.log("stuff done");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -55,28 +54,34 @@ app.get('/team',function(req,res){
 });
 
 app.post('/teamdata',function(req,res){
-	var name = req.body.name_of_team;
-	var miNumber = req.body.mi_number;
-	var logoID = req.body.logoID;
-	var status = 3;
-	var data = {
-		"error":1,
-		"Teams":""
-	};
-	if(!!name && !!miNumber && !!logoID){
-		connection.query("INSERT INTO teams VALUES('',?,?,?,?,?,'')",[name,miNumber,logoID,status,0],function(err, rows, fields){
-			if(!!err){
-				data["Teams"] = "Error Adding team";
-				console.log(err);
-			}else{
-				data["error"] = 0;
-				data["Teams"] = "Team Added Successfully";
-			}
+	if(req.session.code==allowedID){	
+		var name = req.body.name_of_team;
+		var miNumber = req.body.mi_number;
+		var logoID = req.body.logoID;
+		var status = 3;
+		var data = {
+			"error":1,
+			"Teams":""
+		};
+		if(!!name && !!miNumber && !!logoID){
+			connection.query("INSERT INTO teams VALUES('',?,?,?,?,?,'')",[name,miNumber,logoID,status,0],function(err, rows, fields){
+				if(!!err){
+					data["Teams"] = "Error Adding team";
+					console.log(err);
+				}else{
+					data["error"] = 0;
+					data["Teams"] = "Team Added Successfully";
+				}
+				res.json(data);
+			});
+		}else{
+			data["Teams"] = "Please provide all required data";
 			res.json(data);
-		});
-	}else{
-		data["Teams"] = "Please provide all required data";
-		res.json(data);
+		}
+	}
+	else{
+		data["Error"] = -1;
+		data["Teams"] = "Invalid credentials";
 	}
 });
 
@@ -85,6 +90,8 @@ app.post('/login', function(req,res){
 	var password = req.body.password;
 	if(username=="admin" && password=="hunter2"){
 		var sessionID = makeid();
+		allowedID = sessionID;
+		req.session.code = sessionID;
 	}
 });
 app.use('/', express.static(__dirname));

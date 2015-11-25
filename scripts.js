@@ -1,5 +1,5 @@
 var logo = 0;
-var pics = 4;
+var pics = 6;
 
 $(document).ready(function()
 {
@@ -18,6 +18,7 @@ var submitreg =function() {
   var name=$('#name_of_team').val();
   var MInum=$('#mi_number').val();
   var data = {name_of_team : name, logoID : logo, mi_number : MInum};
+  console.log(data);
   $.post( '/teamdata', data, function(recv) {
          if(recv["error"] == 0)
          {

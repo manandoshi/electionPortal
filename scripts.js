@@ -28,6 +28,7 @@ var submitreg =function() {
          }
        },
        'json' // I expect a JSON response
+       // And I'll give you one. 
     );
 }
 

@@ -12,6 +12,7 @@ var connection = mysql.createConnection({
 		database : 'mi2k15',
 	});
 //app.use(session({secret:'ads'}));
+var status = 3;
 app.use(cookieParser());
 function makeid()
 {
@@ -56,6 +57,25 @@ app.get('/team',function(req,res){
 		}
 	});
 });
+app.post('/vote', function(req,res){
+
+});
+app.get('/list', function(req,res){
+	var teamList = {
+		"teams":""
+	}
+	connection.query("SELECT * from teams WHERE status = "+status,function(err, rows, fields){
+		console.log(err);
+		if(rows.length != 0){
+			teamList["teams"] = rows;
+			console.log(teamList["teams"][1]["name_of_team"]);
+			res.json(teamList);
+		}else{
+			teamList["teams"] = 'No teams Found..';
+			res.json(teamList);
+		}
+	});
+});
 
 app.post('/teamdata',function(req,res){
 	//console.log(req.session.code);
@@ -64,7 +84,6 @@ app.post('/teamdata',function(req,res){
 		var name = req.body.name_of_team;
 		var miNumber = req.body.mi_number;
 		var logoID = req.body.logoID;
-		var status = 3;
 		var data = {
 			"error":1,
 			"Teams":""
@@ -160,5 +179,5 @@ app.delete('/team',function(req,res){
 });
 */
 http.listen(8888,function(){
-	console.log("Connected & Listen to port 8080");
+	console.log("Connected & Listen to port 8888");
 });

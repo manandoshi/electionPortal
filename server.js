@@ -84,6 +84,7 @@ app.post('/teamdata',function(req,res){
 			data["Teams"] = "Please provide all required data";
 			res.json(data);
 		}
+		console.log(data);
 	}
 	else{
 		console.log("Invalid credentials");
@@ -93,7 +94,11 @@ app.post('/teamdata',function(req,res){
 app.post('/login', function(req,res){
 	var username = req.body.username;
 	var password = req.body.password;
+	var data = {
+			"error":1
+		};
 	if(username=="admin" && password=="hunter2"){
+		data["error"]=0;
 		var sessionID = makeid();
 		allowedID = sessionID;
 		var cookCode = {"sessionID": sessionID}; 
@@ -101,8 +106,10 @@ app.post('/login', function(req,res){
 //		req.session.code = sessionID;
 		console.log(sessionID);
 		console.log("code: ", req.cookies["code"]);
-		res.redirect(303, "/register.html");
+		//res.redirect(303, "/register.html");
 	}
+	res.json(data);
+
 });
 app.use('/', express.static(__dirname));
 /*app.put('/team',function(req,res){

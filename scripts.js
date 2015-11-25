@@ -19,7 +19,7 @@ var submitreg =function() {
   var MInum=$('#mi_number').val();
   var data = {name_of_team : name, logoID : logo, mi_number : MInum};
   $.post( '/teamdata', data, function(recv) {
-         if(recv[error] == 0)
+         if(recv["error"] == 0)
          {
             alert("Team Added Successfully");
             $('#name_of_team').val("");
@@ -36,8 +36,8 @@ var login = function(){
   var pwd=$('#pwd').val();
   var data = {username:user, password: pwd};
   $.post( '/login', data, function(recv) {
-         console.log("hidden shit");
-         alert("yay");
+        console.log("hidden shit");
+        window.location.replace("/register.html");
        },
        'json' // I expect a JSON response
     );

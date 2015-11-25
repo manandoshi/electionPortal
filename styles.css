@@ -6,12 +6,28 @@
 	max-width: 600px;
 }
 
+.vote{
+	text-align: center;
+	max-width: 900px;
+	padding-bottom: 20px;
+}
+
 .head{
 	text-align: center;
 }
 
 .regsub{
 	margin-top: 20px;
+}
+
+.votesub{
+	width: 160px;
+	height: 80px;
+	margin-top: 20px;
+}
+
+.votesub h2{
+	margin-top: 10px;
 }
 
 .reglogin{
@@ -25,4 +41,19 @@
 .row img{
 	margin-top: 5px;
 	width: 100%;
+}
+
+.team{
+	margin: 3% 8.33%;
+	box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.6);
+	padding-bottom: 15px;
+	text-align: center;
+}
+
+.team img{
+	padding: 15px 0;
+}
+
+.btn-group{
+	padding: 
 }

@@ -1,5 +1,7 @@
 var express=require('express');
 var app = express();
+//var session = require("express-session");
+var cookieParser = require('cookie-parser');
 var http = require('http').Server(app);
 var mysql = require('mysql');
 var bodyParser = require("body-parser");
@@ -9,6 +11,8 @@ var connection = mysql.createConnection({
 		password : 'Qwerty@314',
 		database : 'mi2k15',
 	});
+//app.use(session({secret:'ads'}));
+app.use(cookieParser());
 function makeid()
 {
     var text = "";
@@ -54,7 +58,9 @@ app.get('/team',function(req,res){
 });
 
 app.post('/teamdata',function(req,res){
-	if(req.session.code==allowedID){	
+	//console.log(req.session.code);
+	if(req.cookies["code"]==allowedID){	
+		console.log("ALLOWED");
 		var name = req.body.name_of_team;
 		var miNumber = req.body.mi_number;
 		var logoID = req.body.logoID;
@@ -80,8 +86,7 @@ app.post('/teamdata',function(req,res){
 		}
 	}
 	else{
-		data["Error"] = -1;
-		data["Teams"] = "Invalid credentials";
+		console.log("Invalid credentials");
 	}
 });
 
@@ -91,7 +96,12 @@ app.post('/login', function(req,res){
 	if(username=="admin" && password=="hunter2"){
 		var sessionID = makeid();
 		allowedID = sessionID;
-		req.session.code = sessionID;
+		var cookCode = {"sessionID": sessionID}; 
+		res.cookie("code", sessionID);
+//		req.session.code = sessionID;
+		console.log(sessionID);
+		console.log("code: ", req.cookies["code"]);
+		res.redirect(303, "/register.html");
 	}
 });
 app.use('/', express.static(__dirname));

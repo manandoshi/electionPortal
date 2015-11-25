@@ -21,16 +21,31 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 <body>
-	<div class="container">
+	<div class="container reg">
 		<h2 class="head">MI Election Team Registration</h2>
 		<div class="form-group">
 			<label for="name_of_team">Team Name: </label>
 			<input type="text" class="form-control" id="name_of_team" placeholder="Enter Team Name">
-			<label for="logoID">Logo: </label>
-			<input type="text" class="form-control" id="logoID" placeholder="Enter Logo Id">
 			<label for="mi_number">MI Number: </label>
 			<input type="text" class="form-control" id="mi_number" placeholder="Enter MI Number">
-			<button type="submit" class="btn btn-default" id="submit" onclick="submit()">Submit</button>
+			<div class = "row">
+				<div class="col-xs-4">
+    				<img src="http://placehold.it/160x100" class="img-responsive img-radio">
+    				<button type="button" class="btn btn-primary btn-radio">Left</button>
+    				<input type="checkbox" id="left-item" class="hidden">
+    			</div>
+    			<div class="col-xs-4">
+    				<img src="http://placehold.it/160x100" class="img-responsive img-radio">
+    				<button type="button" class="btn btn-primary btn-radio">Middle</button>
+    				<input type="checkbox" id="middle-item" class="hidden">
+    			</div>
+    			<div class="col-xs-4">
+    				<img src="http://placehold.it/160x100" class="img-responsive img-radio">
+    				<button type="button" class="btn btn-primary btn-radio">Right</button>
+    				<input type="checkbox" id="right-item" class="hidden">
+    			</div>
+			</div>
+			<button type="submit" class="btn btn-default regsub" id="submit" onclick="submitreg()">Submit</button>
 		</div>
 	</div>
 </body>

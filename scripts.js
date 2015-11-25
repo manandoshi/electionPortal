@@ -1,8 +1,8 @@
-var submit =function() {
+var submitreg =function() {
   var name=$('#name_of_team').val();
   var logo=$('#logoID').val();
   var MInum=$('#mi_number').val();
-  var data = {name_of_team : name, logoID : logo, mi_number : MInum}
+  var data = {name_of_team : name, logoID : logo, mi_number : MInum};
   $.post( '/teamdata', data, function(recv) {
          if(recv[error] == 0)
          {
@@ -14,5 +14,18 @@ var submit =function() {
        },
        'json' // I expect a JSON response
     );
+}
+
+var login = function(){
+  var user=$('#user').val();
+  var pwd=$('#pwd').val();
+  var data = {username:user, password: pwd};
+  $.post( '/login', data, function(recv) {
+         console.log("hidden shit");
+         alert("yay");
+       },
+       'json' // I expect a JSON response
+    );
+
 }
   

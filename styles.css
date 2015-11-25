@@ -1,11 +1,23 @@
-.container{
+.reg{
 	max-width: 800px;
+}
+
+.login{
+	max-width: 600px;
 }
 
 .head{
 	text-align: center;
 }
 
-#submit{
+.regsub{
 	margin-top: 20px;
+}
+
+.reglogin{
+	margin-top: 20px;
+}
+
+.btn-radio {
+	width: 100%;
 }

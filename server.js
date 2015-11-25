@@ -1,4 +1,5 @@
-var app   = require('express'());
+var express=require('express');
+var app = express();
 var http = require('http').Server(app);
 var mysql = require('mysql');
 var bodyParser = require("body-parser");
@@ -8,6 +9,18 @@ var connection = mysql.createConnection({
 		password : 'Qwerty@314',
 		database : 'mi2k15',
 	});
+
+function makeid()
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
 console.log("stuff done");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -51,9 +64,10 @@ app.post('/teamdata',function(req,res){
 		"Teams":""
 	};
 	if(!!name && !!miNumber && !!logoID){
-		connection.query("INSERT INTO teams VALUES('',?,?,?,?,'')",[name,miNumber,logoID,status,0],function(err, rows, fields){
+		connection.query("INSERT INTO teams VALUES('',?,?,?,?,?,'')",[name,miNumber,logoID,status,0],function(err, rows, fields){
 			if(!!err){
 				data["Teams"] = "Error Adding team";
+				console.log(err);
 			}else{
 				data["error"] = 0;
 				data["Teams"] = "Team Added Successfully";
@@ -66,12 +80,14 @@ app.post('/teamdata',function(req,res){
 	}
 });
 
-app,post('/login', function(req,res){
+app.post('/login', function(req,res){
 	var username = req.body.username;
 	var password = req.body.password;
-	if(username=="admin" && password=="")
+	if(username=="admin" && password=="hunter2"){
+		var sessionID = makeid();
+	}
 });
-app.use('/', express.static(__dirname + '/app'));
+app.use('/', express.static(__dirname));
 /*app.put('/team',function(req,res){
 	var Id = req.body.id;
 	var Teamname = req.body.teamname;

@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
 	});
 //app.use(session({secret:'ads'}));
 var statusArray = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
-var status = 3;  //CURRENT STATUS
+var status = 1;  //CURRENT STATUS
 app.use(cookieParser());
 
 function makeid()
@@ -316,6 +316,10 @@ app.post('/login', function(req,res){
 
 app.post('/updateTeam',function(req,res){
 	////console.log(req.session.code);
+	var data = {
+		"error":1,
+		"Teams":""
+	};
 	if(req.cookies["code"]==allowedID){	
 		//console.log("ALLOWED");
 		var id = req.body.team_id;
@@ -327,7 +331,7 @@ app.post('/updateTeam',function(req,res){
 		var logoID = req.body.logoID;
 		var status = req.body.status;
 		var vote = req.body.vote_count;
-		
+		console.log(req.body);
 		if(!!id && !!name && !!miNumber && !!logoID && !!status){
 			connection.query("UPDATE teams SET name ="+name+", mi_number="+miNumber+", logoID="+logoID+", status="+status+", vote_count="+vote+" WHERE id = " + id,function(err, rows, fields){
 				if(!!err){

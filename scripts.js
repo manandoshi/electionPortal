@@ -5,23 +5,25 @@ var slots = 0;
 $(document).ready(function()
 {
   $.ajax(
-    type: 'GET',
-    url: '/statusData',
-    success: function(data)
     {
-      slots = data;
-      for (var i = 0; i < slots.length; i++) 
+      type: 'GET',
+      url: '/statusData',
+      success: function(data)
       {
-        appendstr = "<li>Slot " + i + "(" + slots[i] + ")</li>";
-        $(".dropdown-menu").append(appendstr);
-      };
-      $("li").on("click", funtion()
-      {
-        $(".dropdown-toggle").html($(this).html());
+        slots = data;
+        for (var i = 0; i < slots.length; i++) 
+        {
+          appendstr = "<li>Slot " + i + "(" + slots[i] + ")</li>";
+          $(".dropdown-menu").append(appendstr);
+        };
+        $("li").on("click", function()
+        {
+          $(".dropdown-toggle").html($(this).html());
+        }
+        );
       }
-      );
     }
-  )
+  );
   for (var i = 0; i < pics; i++) {
     (function(i)
     {
@@ -34,7 +36,7 @@ $(document).ready(function()
 }); 
 
 var submitreg =function() {
-  var slot = Number($(".dropdown-toggle").html().charAt(4));
+  var slot = Number($(".dropdown-toggle").html().charAt(5));
   var name=$('#name_of_team').val();
   var MInum=$('#mi_number').val();
   var data = {name_of_team : name, logoID : logo, mi_number : MInum, status: slot};
@@ -42,10 +44,11 @@ var submitreg =function() {
          if(recv["error"] == 0)
          {
             alert("Team Added Successfully");
-            $('#name_of_team').val("");
-            $('#mi_number').val("");
-            logo = 0;
-            $(".dropdown-toggle").html("Select Slot");
+            window.location.replace("/register.html")
+            //$('#name_of_team').val("");
+            //$('#mi_number').val("");
+            //logo = 0;
+            //$(".dropdown-toggle").html("Select Slot");
          }
 
          else

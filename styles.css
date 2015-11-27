@@ -54,6 +54,11 @@
 	padding: 15px 0;
 }
 
-.btn-group{
-	padding: 
+li{
+	text-align: center;
+	cursor: pointer;
+}
+
+li:hover{
+	background-color: #DDDDDD;
 }

@@ -49,7 +49,8 @@ app.get('/team',function(req,res){
 	var data = {
 		"error":1,
 		"Teams":"",
-		"slots":statusArray.length
+		"slots":statusArray.length,
+		"currSlot": status
 	};
 	if(req.cookies["code"]==allowedID){		
 		connection.query("SELECT * from teams",function(err, rows, fields){

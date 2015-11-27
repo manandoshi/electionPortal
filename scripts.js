@@ -82,11 +82,11 @@ var login = function(){
     );
 }
 
-$("#pwd").keydown(function(event)
+$(document).keypress(function(event)
 {
   if(event.which == 13)
   {
     login();
   }
-})
+});
 

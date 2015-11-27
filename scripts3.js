@@ -30,7 +30,7 @@ $(document).ready(function()
 			for (var i = 0; i < stuff.length; i++) {
 				appendstr = "<tr>";
 				appendstr += "<td><img src='http://placehold.it/160x100'></td>";
-				appendstr += "<td><span class='teamname'>" + stuff[i]["name_of_team"] + "</span></td>";
+				appendstr += "<td><span class='teamname' data-id="+i+">" + stuff[i]["name_of_team"] + "</span></td>";
 				appendstr += "<td>" + stuff[i]["mi_number"] + "</td>";				
 				appendstr += "<td>" + stuff[i]["status"] + "</td>";
 				appendstr += "<td>" + stuff[i]["vote_count"] + "</td>";
@@ -38,6 +38,9 @@ $(document).ready(function()
 				appendstr += "</tr>";
 				$("tbody").append(appendstr);
 			};
+			$(".teamname").on("click", function(){
+				console.log(this.attr('data-id'));
+			})
 
 			$(".del").on("click", function()
 			{

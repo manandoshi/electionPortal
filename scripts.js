@@ -53,7 +53,7 @@ var submitreg =function() {
 
          else
          {
-          alert("Error in adding team. Error: "+recv["teams"]);
+          alert("Error in adding team. Error: "+recv["Teams"]);
          }
        },
        'json' // I expect a JSON response

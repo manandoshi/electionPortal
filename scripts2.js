@@ -47,7 +47,7 @@ var voted = function()
 {
 	var MINum = $("#mi_number").val();
 	var phone = $("#phone").val();
-	var name = $("name").val();
+	var name = $("#name").val();
 	var data = {team_id : teamID, value : value, mi_number : MINum, phone : phone, name: name} 
 	$.post( '/vote', data, function(recv) {
         console.log("hidden shit");

@@ -129,7 +129,7 @@ app.post('/vote', function(req,res){
 	var minum = req.body.mi_number;
 	var ph = req.body.phone;
 	var name = req.body.name;
-
+	console.log("Name:" + name);
 	var currVotes = 0;
 	connection.query("SELECT * from teams where id = "+team_id, function(err,rows,fields){
 		//console.log("VOTE(select): "+ err);

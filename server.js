@@ -12,6 +12,7 @@ var connection = mysql.createConnection({
 		database : 'mi2k15',
 	});
 //app.use(session({secret:'ads'}));
+var statusArray = Array.apply(null, Array(5)).map(Number.prototype.valueOf,0);
 var status = 3;
 app.use(cookieParser());
 function makeid()
@@ -58,9 +59,27 @@ app.get('/team',function(req,res){
 	});
 });
 app.post('/vote', function(req,res){
+	var team_id = req.body.team_id;
+	var value;
+	var currVotes = 0;
+	connection.query("SELECT * from teams where id = "+team_id, function(err,rows,fields){
+		if (rows.length == 1){
+			currVotes = rows[0]["vote_count"];
+		}
+		else{
+			console.log("HUGE ASS ERROR");
+		}
+	var newVote = currVotes + value;
+	
+	//if valid user
+		connection.query("UPDATE 'teams' SET 'vote_count'=" + newVote + " WHERE 'teams'.'id' = " + team_id,function(err,rows,fields){
+			console.log(err);
+		});
+
+	});
 
 });
-app.get('/list', function(req,res){
+app.get('/listActive', function(req,res){
 	var teamList = {
 		"teams":""
 	}
@@ -76,7 +95,24 @@ app.get('/list', function(req,res){
 		}
 	});
 });
-
+app.get('/statusData',function(req,res){
+	/*connection.query("SELECT status from teams" ,function(err, rows, fields){
+		console.log(err);
+		var statusData = null;
+		if(rows.length != 0){
+			statusData = rows;
+			for (var i = statusData.length - 1; i >= 0; i--) {
+				statusArray[statusData[i]["status"]] += 1;
+			};
+			res.json(statusData);
+		}
+		else{
+			statusData = 'No teams Found..';
+			res.json(statusData);
+		}
+	});*/
+	res.json(statusArray);
+});
 app.post('/teamdata',function(req,res){
 	//console.log(req.session.code);
 	if(req.cookies["code"]==allowedID){	
@@ -84,6 +120,7 @@ app.post('/teamdata',function(req,res){
 		var name = req.body.name_of_team;
 		var miNumber = req.body.mi_number;
 		var logoID = req.body.logoID;
+		var status = req.body.status;
 		var data = {
 			"error":1,
 			"Teams":""
@@ -94,6 +131,7 @@ app.post('/teamdata',function(req,res){
 					data["Teams"] = "Error Adding team";
 					console.log(err);
 				}else{
+					statusArray[status]++;
 					data["error"] = 0;
 					data["Teams"] = "Team Added Successfully";
 				}
@@ -122,14 +160,13 @@ app.post('/login', function(req,res){
 		allowedID = sessionID;
 		var cookCode = {"sessionID": sessionID}; 
 		res.cookie("code", sessionID);
-//		req.session.code = sessionID;
 		console.log(sessionID);
 		console.log("code: ", req.cookies["code"]);
-		//res.redirect(303, "/register.html");
 	}
 	res.json(data);
 
 });
+
 app.use('/', express.static(__dirname));
 /*app.put('/team',function(req,res){
 	var Id = req.body.id;
@@ -178,6 +215,6 @@ app.delete('/team',function(req,res){
 	}
 });
 */
-http.listen(8888,function(){
-	console.log("Connected & Listen to port 8888");
+http.listen(12345,function(){
+	console.log("Connected & Listen to port 12345");
 });

@@ -44,13 +44,18 @@ $(document).ready(function()
 				var data = {team_id : id};
 				$.post( '/deleteTeam', data, function(recv) 
 				{
-					if(data["error"]==0)
+					if(recv["error"]==0)
 		            {
 		            	window.location.replace("/admin.html");
 		            }
 		       	},
 		       	'json'
     			);
+			});
+
+			$(".add").on("click", function()
+			{
+				window.location.replace("/register.html")
 			})
 		}
 	}

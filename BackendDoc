@@ -44,12 +44,3 @@ POST /updateTeam
 			status 		-	new Slot
 			vote_count	-	(gulp) New vote value.
 	Returns JSON object. data[error] = 0 if no error. data[Teams] gives the error.
-
-GET /leaderboard
-	same as /team, arranged in desc order of votes
-
-GET /currleaderboard
-	same as /team, arranged in desc order of votes. Only teams active in current slot
-
-POST /setStatus
-	Args:	status 		-	New curr status

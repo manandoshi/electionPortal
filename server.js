@@ -27,7 +27,7 @@ function makeid()
     return text;
 }
 
-console.log(statusArray.length);
+//console.log(statusArray.length);
 for (var i = statusArray.length - 1; i >= 0; i--) {
 	updateArrray(i);
 };
@@ -42,7 +42,7 @@ function updateArrray(i){
 
 
 var allowedID=makeid();
-console.log("stuff done");
+//console.log("stuff done");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.get('/team',function(req,res){
@@ -54,12 +54,12 @@ app.get('/team',function(req,res){
 	};
 	if(req.cookies["code"]==allowedID){		
 		connection.query("SELECT * from teams ORDER BY status",function(err, rows, fields){
-			console.log(err);
+			//console.log(err);
 			if(rows.length != 0){
 				data["error"] = 0;
 				data["Teams"] = rows;
 				res.json(data);
-				console.log(data);
+				//console.log(data);
 			}else{
 				data["Teams"] = 'No teams Found..';
 				res.json(data);
@@ -79,12 +79,12 @@ app.get('/leaderboard',function(req,res){
 	};
 	if(req.cookies["code"]==allowedID){	
 		connection.query("SELECT * from teams ORDER BY vote_count DESC",function(err, rows, fields){
-			console.log(err);
+			//console.log(err);
 			if(rows.length != 0){
 				data["error"] = 0;
 				data["Teams"] = rows;
 				res.json(data);
-				console.log(data);
+				//console.log(data);
 			}else{
 				data["Teams"] = 'No teams Found..';
 				res.json(data);
@@ -104,12 +104,12 @@ app.get('/currleaderboard',function(req,res){
 	};
 	if(req.cookies["code"]==allowedID){	
 		connection.query("SELECT * FROM teams WHERE status="+status+" ORDER BY vote_count DESC",function(err, rows, fields){
-			console.log(err);
+			//console.log(err);
 			if(rows.length != 0){
 				data["error"] = 0;
 				data["Teams"] = rows;
 				res.json(data);
-				console.log(data);
+				//console.log(data);
 			}else{
 				data["Teams"] = 'No teams Found..';
 				res.json(data);
@@ -125,35 +125,35 @@ app.get('/currleaderboard',function(req,res){
 app.post('/vote', function(req,res){
 	var team_id = req.body.team_id;
 	var value = Number(req.body.value);
-	console.log("Value:", value);
+	//console.log("Value:", value);
 	var minum = req.body.mi_number;
 	var ph = req.body.phone;
 	var name = req.body.name;
 
 	var currVotes = 0;
 	connection.query("SELECT * from teams where id = "+team_id, function(err,rows,fields){
-		console.log("VOTE(select): "+ err);
+		//console.log("VOTE(select): "+ err);
 		if (rows.length == 1){
-			console.log("Rows: ", rows);
+			//console.log("Rows: ", rows);
 			currVotes = Number(rows[0]["vote_count"]);
-			console.log("currVotes: "+currVotes);
+			//console.log("currVotes: "+currVotes);
 		}
 		else{
-			console.log("HUGE ASS ERROR");
+			//console.log("HUGE ASS ERROR");
 		}
 	var newVote = currVotes + value;
 	
 	//if valid user
 		connection.query("UPDATE teams SET vote_count=" + newVote + " WHERE id = " + team_id,function(err,rows,fields){
-			console.log("VOTE(update): "+ err);
+			//console.log("VOTE(update): "+ err);
 		});
 	// if valid user
 	//UPDATE USER DB
 		connection.query("SELECT * FROM voters WHERE id='" + minum+"'", function(err,rows,fields){
-			console.log(err);
+			//console.log(err);
 			if(rows.length == 0){
 				connection.query("INSERT INTO voters VALUES(?,?,?,?)",[minum,name,status,ph],function(err,rows,fields){
-					console.log(err);
+					//console.log(err);
 				});
 			}
 		});
@@ -167,10 +167,11 @@ app.get('/listActive', function(req,res){
 	}
 	//if(req.cookies["code"]==allowedID){	
 		connection.query("SELECT * from teams WHERE status = "+status,function(err, rows, fields){
-			console.log(err);
+			//console.log(err);
 			if(rows.length != 0){
 				data["teams"] = rows;
-				//console.log(data["teams"][1]["name_of_team"]);
+				//console.log("");
+				////console.log(data["teams"][1]["name_of_team"]);
 				res.json(data);
 			}else{
 				data["teams"] = 'No teams Found..';
@@ -188,13 +189,13 @@ app.get('/statusData',function(req,res){
 		res.json(statusArray);
 });
 app.post('/teamdata',function(req,res){
-	//console.log(req.session.code);
+	////console.log(req.session.code);
 	var data = {
 			"error":1,
 			"Teams":""
 		};
 	if(req.cookies["code"]==allowedID){	
-		console.log("ALLOWED");
+		//console.log("ALLOWED");
 		var name = req.body.name_of_team;
 		var miNumber = req.body.mi_number;
 		var logoID = req.body.logoID;
@@ -203,7 +204,7 @@ app.post('/teamdata',function(req,res){
 			connection.query("INSERT INTO teams VALUES('',?,?,?,?,?,'')",[name,miNumber,logoID,status,0],function(err, rows, fields){
 				if(!!err){
 					data["Teams"] = "Error Adding team";
-					console.log(err);
+					//console.log(err);
 				}else{
 					statusArray[status]++;
 					data["error"] = 0;
@@ -215,10 +216,10 @@ app.post('/teamdata',function(req,res){
 			data["Teams"] = "Please provide all required data";
 			res.json(data);
 		}
-		console.log(data);
+		//console.log(data);
 	}
 	else{
-		console.log("Invalid credentials");
+		//console.log("Invalid credentials");
 		data["Teams"]="Invalid Credentials";
 		data["error"]=-1;
 		res.json(data);
@@ -226,13 +227,13 @@ app.post('/teamdata',function(req,res){
 });
 
 app.post('/teamdata',function(req,res){
-	//console.log(req.session.code);
+	////console.log(req.session.code);
 	var data = {
 			"error":1,
 			"Teams":""
 		};
 	if(req.cookies["code"]==allowedID){	
-		console.log("ALLOWED");
+		//console.log("ALLOWED");
 		var name = req.body.name_of_team;
 		var miNumber = req.body.mi_number;
 		var logoID = req.body.logoID;
@@ -241,7 +242,7 @@ app.post('/teamdata',function(req,res){
 			connection.query("INSERT INTO teams VALUES('',?,?,?,?,?,'')",[name,miNumber,logoID,status,0],function(err, rows, fields){
 				if(!!err){
 					data["Teams"] = "Error Adding team";
-					console.log(err);
+					//console.log(err);
 				}else{
 					statusArray[status]++;
 					data["error"] = 0;
@@ -253,10 +254,10 @@ app.post('/teamdata',function(req,res){
 			data["Teams"] = "Please provide all required data";
 			res.json(data);
 		}
-		console.log(data);
+		//console.log(data);
 	}
 	else{
-		console.log("Invalid credentials");
+		//console.log("Invalid credentials");
 		data["Teams"]="Invalid Credentials";
 		data["error"]=-1;
 		res.json(data);
@@ -275,19 +276,19 @@ app.post('/deleteTeam',function(req,res){
 				connection.query("DELETE FROM teams where id = " + id,function(err, rows, fields){
 					if(!!err){
 						data["Teams"] = "Error deleting team";
-						console.log(err);
+						//console.log(err);
 					}else{
 						data["error"] = 0;
 						data["Teams"] = "Team Deleted Successfully";
 					}
 					res.json(data);
 				});
-			console.log(data);
+			//console.log(data);
 		});
 	}
 	else{
 
-		console.log("Invalid credentials");
+		//console.log("Invalid credentials");
 		data["Teams"]="Invalid Credentials";
 		data["error"]=-1;
 		res.json(data);
@@ -306,17 +307,17 @@ app.post('/login', function(req,res){
 		allowedID = sessionID;
 		var cookCode = {"sessionID": sessionID}; 
 		res.cookie("code", sessionID);
-		console.log(sessionID);
-		console.log("code: ", req.cookies["code"]);
+		//console.log(sessionID);
+		//console.log("code: ", req.cookies["code"]);
 	}
 	res.json(data);
 
 });
 
 app.post('/updateTeam',function(req,res){
-	//console.log(req.session.code);
+	////console.log(req.session.code);
 	if(req.cookies["code"]==allowedID){	
-		console.log("ALLOWED");
+		//console.log("ALLOWED");
 		var id = req.body.team_id;
 		connection.query("SELECT * FROM teams where id="+id, function(err, rows, fields){
 			statusArray[Number(rows[0]["status"])]--;
@@ -331,7 +332,7 @@ app.post('/updateTeam',function(req,res){
 			connection.query("UPDATE teams SET name ="+name+", mi_number="+miNumber+", logoID="+logoID+", status="+status+", vote_count="+vote+" WHERE id = " + id,function(err, rows, fields){
 				if(!!err){
 					data["Teams"] = "Error updating team";
-					console.log(err);
+					//console.log(err);
 				}else{
 					statusArray[status]++;
 					data["error"] = 0;
@@ -343,10 +344,10 @@ app.post('/updateTeam',function(req,res){
 			data["Teams"] = "Please provide all required data";
 			res.json(data);
 		}
-		console.log(data);
+		//console.log(data);
 	}
 	else{
-		console.log("Invalid credentials");
+		//console.log("Invalid credentials");
 		data["Teams"]="Invalid Credentials";
 		data["error"]=-1;
 		res.json(data);
@@ -361,5 +362,5 @@ app.post('/setStatus',function(req,res){
 app.use('/', express.static(__dirname));
 
 http.listen(12346,function(){
-	console.log("Connected & Listen to port 12345");
+	//console.log("Connected & Listen to port 12345");
 });

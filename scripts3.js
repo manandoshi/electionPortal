@@ -69,7 +69,8 @@ var sendslot = function()
 	var data = {status : currslot};
 	$.post( '/setStatus', data, function(recv) 
 		{
-            window.location.replace("/admin.html")
+			alert("Slot Succesfully changed");
+            window.location.replace("/admin.html");
        	},
        'json' // I expect a JSON response
        // And I'll give you one. 

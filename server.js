@@ -132,9 +132,11 @@ app.post('/vote', function(req,res){
 
 	var currVotes = 0;
 	connection.query("SELECT * from teams where id = "+team_id, function(err,rows,fields){
+		console.log("VOTE(select): "+ err);
 		if (rows.length == 1){
 			console.log("Rows: ", rows);
 			currVotes = Number(rows[0]["vote_count"]);
+			console.log("currVotes: "+currVotes);
 		}
 		else{
 			console.log("HUGE ASS ERROR");
@@ -143,17 +145,18 @@ app.post('/vote', function(req,res){
 	
 	//if valid user
 		connection.query("UPDATE teams SET vote_count=" + newVote + " WHERE id = " + team_id,function(err,rows,fields){
-			console.log(err);
+			console.log("VOTE(update): "+ err);
 		});
 	// if valid user
-	/*UPDATE USER DB
-		connection.query("SELECT * from voters WHERE id = " + minum, function(err,rows,fields){
+	//UPDATE USER DB
+		connection.query("SELECT * FROM voters WHERE id='" + minum+"'", function(err,rows,fields){
+			console.log(err);
 			if(rows.length == 0){
 				connection.query("INSERT INTO voters VALUES(?,?,?,?)",[minum,name,status,ph],function(err,rows,fields){
 					console.log(err);
 				});
 			}
-		});*/
+		});
 	});
 
 });
@@ -167,7 +170,7 @@ app.get('/listActive', function(req,res){
 			console.log(err);
 			if(rows.length != 0){
 				data["teams"] = rows;
-				console.log(data["teams"][1]["name_of_team"]);
+				//console.log(data["teams"][1]["name_of_team"]);
 				res.json(data);
 			}else{
 				data["teams"] = 'No teams Found..';
@@ -265,29 +268,22 @@ app.post('/deleteTeam',function(req,res){
 		"error":1,
 		"Teams":""
 	};
-	if(req.cookies["code"]==allowedID){	
-		console.log("ALLOWED");
+	if(req.cookies["code"]==allowedID){		
 		var id = req.body.team_id;
 		connection.query("SELECT * FROM teams where id="+id, function(err, rows, fields){
 			statusArray[Number(rows[0]["status"])]--;
+				connection.query("DELETE FROM teams where id = " + id,function(err, rows, fields){
+					if(!!err){
+						data["Teams"] = "Error deleting team";
+						console.log(err);
+					}else{
+						data["error"] = 0;
+						data["Teams"] = "Team Deleted Successfully";
+					}
+					res.json(data);
+				});
+			console.log(data);
 		});
-		
-		if(!!team_id){
-			connection.query("DELETE FROM teams where id = " + id,[name,miNumber,logoID,status,0],function(err, rows, fields){
-				if(!!err){
-					data["Teams"] = "Error deleting team";
-					console.log(err);
-				}else{
-					data["error"] = 0;
-					data["Teams"] = "Team Deleted Successfully";
-				}
-				res.json(data);
-			});
-		}else{
-			data["Teams"] = "Please provide all required data";
-			res.json(data);
-		}
-		console.log(data);
 	}
 	else{
 

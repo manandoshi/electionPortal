@@ -81,3 +81,12 @@ var login = function(){
        'json' // I expect a JSON response
     );
 }
+
+$("body").keyup(function(event)
+{
+  if(event.keyCode == 13)
+  {
+    login();
+  }
+})
+

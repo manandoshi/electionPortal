@@ -12,10 +12,11 @@ $(document).ready(function()
 			console.log(stuff);
 			for (var i = 0; i < stuff.length; i++) {
 				appendstr = "<tr>";
-				appendstr += "<td class='teamname'>" + stuff[i]["name_of_team"] + "</td>";
-				appendstr += "<td>" + stuff[i]["mi_number"] + "</td>";
 				appendstr += "<td><img src='http://placehold.it/160x100'></td>";
+				appendstr += "<td><span class='teamname'>" + stuff[i]["name_of_team"] + "</span></td>";
+				appendstr += "<td>" + stuff[i]["mi_number"] + "</td>";				
 				appendstr += "<td>" + stuff[i]["status"] + "</td>";
+				appendstr += "<td>" + stuff[i]["vote_count"] + "</td>";
 				appendstr += "</tr>";
 				$("tbody").append(appendstr);
 			};

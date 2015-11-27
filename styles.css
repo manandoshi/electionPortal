@@ -2,6 +2,10 @@
 	max-width: 800px;
 }
 
+.admin{
+	max-width: 800px;
+}
+
 .login{
 	max-width: 600px;
 }
@@ -61,4 +65,28 @@ li{
 
 li:hover{
 	background-color: #DDDDDD;
+}
+
+.teamname{
+	cursor: pointer;
+}
+
+.teamname:hover{
+	text-decoration: underline;
+}
+
+.teamlist img{
+	height: 30px;
+}
+
+.teamlist tbody tr:hover{
+	background-color: #DDDDDD;
+}
+
+.admin .dropdown{
+	display: inline-block;
+}
+
+.inline{
+	display: inline-block;
 }

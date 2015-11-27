@@ -324,7 +324,7 @@ app.post('/updateTeam',function(req,res){
 app.post('/setStatus',function(req,res){
 	var new_status = req.body.status;
 	status = new_status;
-}
+});
 
 app.use('/', express.static(__dirname));
 

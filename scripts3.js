@@ -8,7 +8,8 @@ $(document).ready(function()
 		url : "/team",
 		success : function(data)
 		{
-			stuff = data;
+			stuff = data["Teams"];
+			console.log(stuff);
 			for (var i = 0; i < stuff.length; i++) {
 				appendstr = "<tr>";
 				appendstr += "<td class='teamname'>" + stuff[i]["name_of_team"] + "</td>";
@@ -16,6 +17,7 @@ $(document).ready(function()
 				appendstr += "<td><img src='http://placehold.it/160x100'></td>";
 				appendstr += "<td>" + stuff[i]["status"] + "</td>";
 				appendstr += "</tr>";
+				$("tbody").append(appendstr);
 			};
 		}
 	}

@@ -82,7 +82,7 @@ var login = function(){
     );
 }
 
-$("body").keydown(function(event)
+$("#pwd").keydown(function(event)
 {
   if(event.which == 13)
   {

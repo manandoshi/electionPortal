@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
 		database : 'mi2k15',
 	});
 //app.use(session({secret:'ads'}));
-var statusArray = Array.apply(null, Array(5)).map(Number.prototype.valueOf,0);
+var statusArray = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
 var status = 3;
 app.use(cookieParser());
 function makeid()
@@ -44,7 +44,6 @@ app.get('/team',function(req,res){
 		"Teams":""
 	};
 	
-	console.log("GR2");
 	connection.query("SELECT * from teams",function(err, rows, fields){
 		console.log(err);
 		if(rows.length != 0){
@@ -60,11 +59,17 @@ app.get('/team',function(req,res){
 });
 app.post('/vote', function(req,res){
 	var team_id = req.body.team_id;
-	var value;
+	var value = Number(req.body.value);
+	console.log("Value:", value);
+	var minum = req.body.mi_number;
+	var ph = req.body.phone;
+	var name = req.body.name;
+
 	var currVotes = 0;
 	connection.query("SELECT * from teams where id = "+team_id, function(err,rows,fields){
 		if (rows.length == 1){
-			currVotes = rows[0]["vote_count"];
+			console.log("Rows: ", rows);
+			currVotes = Number(rows[0]["vote_count"]);
 		}
 		else{
 			console.log("HUGE ASS ERROR");
@@ -72,10 +77,18 @@ app.post('/vote', function(req,res){
 	var newVote = currVotes + value;
 	
 	//if valid user
-		connection.query("UPDATE 'teams' SET 'vote_count'=" + newVote + " WHERE 'teams'.'id' = " + team_id,function(err,rows,fields){
+		connection.query("UPDATE teams SET vote_count=" + newVote + " WHERE id = " + team_id,function(err,rows,fields){
 			console.log(err);
 		});
-
+	// if valid user
+	/*UPDATE USER DB
+		connection.query("SELECT * from voters WHERE id = " + minum, function(err,rows,fields){
+			if(rows.length == 0){
+				connection.query("INSERT INTO voters VALUES(?,?,?,?)",[minum,name,status,ph],function(err,rows,fields){
+					console.log(err);
+				});
+			}
+		});*/
 	});
 
 });
@@ -113,6 +126,41 @@ app.get('/statusData',function(req,res){
 	});*/
 	res.json(statusArray);
 });
+app.post('/teamdata',function(req,res){
+	//console.log(req.session.code);
+	if(req.cookies["code"]==allowedID){	
+		console.log("ALLOWED");
+		var name = req.body.name_of_team;
+		var miNumber = req.body.mi_number;
+		var logoID = req.body.logoID;
+		var status = req.body.status;
+		var data = {
+			"error":1,
+			"Teams":""
+		};
+		if(!!name && !!miNumber && !!logoID){
+			connection.query("INSERT INTO teams VALUES('',?,?,?,?,?,'')",[name,miNumber,logoID,status,0],function(err, rows, fields){
+				if(!!err){
+					data["Teams"] = "Error Adding team";
+					console.log(err);
+				}else{
+					statusArray[status]++;
+					data["error"] = 0;
+					data["Teams"] = "Team Added Successfully";
+				}
+				res.json(data);
+			});
+		}else{
+			data["Teams"] = "Please provide all required data";
+			res.json(data);
+		}
+		console.log(data);
+	}
+	else{
+		console.log("Invalid credentials");
+	}
+});
+
 app.post('/teamdata',function(req,res){
 	//console.log(req.session.code);
 	if(req.cookies["code"]==allowedID){	

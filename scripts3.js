@@ -1,5 +1,6 @@
 var stuff = 0;
 var slots = 0;
+var curr = 0;
 
 $(document).ready(function()
 {

@@ -82,9 +82,9 @@ var login = function(){
     );
 }
 
-$("body").keyup(function(event)
+$("body").keydown(function(event)
 {
-  if(event.keyCode == 13)
+  if(event.which == 13)
   {
     login();
   }

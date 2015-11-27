@@ -15,6 +15,7 @@ var connection = mysql.createConnection({
 var statusArray = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
 var status = 3;  //CURRENT STATUS
 app.use(cookieParser());
+
 function makeid()
 {
     var text = "";
@@ -25,6 +26,21 @@ function makeid()
 
     return text;
 }
+
+console.log(statusArray.length);
+for (var i = statusArray.length - 1; i >= 0; i--) {
+	updateArrray(i);
+};
+
+function updateArrray(i){
+	connection.query("SELECT * FROM teams WHERE status="+i+" ORDER BY vote_count DESC",function(err, rows, fields){
+		if(rows.length != 0){
+			statusArray[i]+=rows.length;
+		}
+	});
+}
+
+
 var allowedID=makeid();
 console.log("stuff done");
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -33,7 +49,7 @@ app.get('/team',function(req,res){
 	var data = {
 		"error":1,
 		"Teams":"",
-		"slots":statusArray.length()
+		"slots":statusArray.length
 	};
 	if(req.cookies["code"]==allowedID){		
 		connection.query("SELECT * from teams",function(err, rows, fields){

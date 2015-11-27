@@ -54,6 +54,9 @@ var submitreg =function() {
          else
          {
           alert("Error in adding team. Error: "+recv["Teams"]);
+          if(recv["error"]==-1){
+            window.location.replace("/login.html");
+          }
          }
        },
        'json' // I expect a JSON response
@@ -67,8 +70,14 @@ var login = function(){
   var data = {username:user, password: pwd};
   $.post( '/login', data, function(recv) {
         console.log("hidden shit");
-        window.location.replace("/register.html");
-       },
+        if (recv["error"]==0)
+        {
+          window.location.replace("/register.html");
+        }
+        else{
+          alert("Incorrect username/Password");
+        }
+      },
        'json' // I expect a JSON response
     );
 }

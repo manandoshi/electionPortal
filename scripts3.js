@@ -9,6 +9,10 @@ $(document).ready(function()
 		success : function(data)
 		{
 			stuff = data["Teams"];
+			if(data["error"]==-1){
+				alert("Invalid Cedentials");
+				window.location.replace("/login.html");
+			}
 			console.log(stuff);
 			for (var i = 0; i < stuff.length; i++) {
 				appendstr = "<tr>";

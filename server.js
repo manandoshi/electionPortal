@@ -244,6 +244,40 @@ app.post('/login', function(req,res){
 
 });
 
+app.post('/deleteTeam',function(req,res){
+	//console.log(req.session.code);
+	if(req.cookies["code"]==allowedID){	
+		console.log("ALLOWED");
+		var id = req.body.team_id;
+		var name = req.body.name_of_team;
+		var miNumber = req.body.mi_number;
+		var logoID = req.body.logoID;
+		var status = req.body.status;
+		var vote = req.body.vote;
+		
+		if(!!id && !!name && !!miNumber && !!logoID && !!status){
+			connection.query("UPDATE teams SET name ="+name+", mi_number="+miNumber+", logoID="+logoID+", status="+status+", vote_count="+vote+" WHERE id = " + id,function(err, rows, fields){
+				if(!!err){
+					data["Teams"] = "Error updating team";
+					console.log(err);
+				}else{
+					statusArray[status]++;
+					data["error"] = 0;
+					data["Teams"] = "Team Updated Successfully";
+				}
+				res.json(data);
+			});
+		}else{
+			data["Teams"] = "Please provide all required data";
+			res.json(data);
+		}
+		console.log(data);
+	}
+	else{
+		console.log("Invalid credentials");
+	}
+});
+
 app.use('/', express.static(__dirname));
 
 /*app.put('/team',function(req,res){

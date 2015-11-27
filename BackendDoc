@@ -9,7 +9,7 @@ POST /vote
 			value		-	+1 / -1 / 0 depending on vote
 			mi_number	-	mi_number of voter
 			phone		-	phone number of voter
-			name		-	name of voter
+			name_of_team-	name of voter
 
 GET /statusData
 	Returns an array of length 24. array[i] == number of teams in slot i
@@ -19,7 +19,7 @@ GET /listActive
 
 POST /teamdata
 	Add team to db.
-	Args:	name		-	name of team
+	Args:	name_of_team-	name of team
 			mi_number	-	mi number of team(leader?)
 			logoID		-	Logo ID
 			status 		-	Slot
@@ -38,9 +38,9 @@ POST /deleteTeam
 POST /updateTeam
 	Updates team
 	Args:	team_id		-	ID of team to be updated
-			name		-	new name of team
+			name_of_team-	new name of team
 			mi_number	-	new mi number of team(leader?)
 			logoID		-	new Logo ID
 			status 		-	new Slot
-			vote 		-	(gulp) New vote value.
+			vote_count	-	(gulp) New vote value.
 	Returns JSON object. data[error] = 0 if no error. data[Teams] gives the error.

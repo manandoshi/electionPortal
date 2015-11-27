@@ -33,10 +33,25 @@ $(document).ready(function()
 				appendstr += "<td>" + stuff[i]["mi_number"] + "</td>";				
 				appendstr += "<td>" + stuff[i]["status"] + "</td>";
 				appendstr += "<td>" + stuff[i]["vote_count"] + "</td>";
-				appendstr += "<td><button class='btn btn-primary'>Delete</button></td>"
+				appendstr += "<td><button class='btn btn-primary del' id='team" + stuff[i]["id"] + "'>Delete</button></td>"
 				appendstr += "</tr>";
 				$("tbody").append(appendstr);
 			};
+
+			$(".del").on("click", function()
+			{
+				var id = Number($(this).attr('id').charAt(4));
+				var data = {team_id : id};
+				$.post( '/deleteTeam', data, function(recv) 
+				{
+					if(data["error"]==0)
+		            {
+		            	window.location.replace("/admin.html");
+		            }
+		       	},
+		       	'json'
+    			);
+			})
 		}
 	}
 	)

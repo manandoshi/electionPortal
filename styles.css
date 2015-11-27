@@ -101,3 +101,8 @@ li:hover{
 	position: relative;
 	bottom: 8px;
 }
+
+.del{
+	padding-top: 4px;
+	padding-bottom: 4px;
+}

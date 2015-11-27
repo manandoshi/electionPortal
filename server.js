@@ -196,6 +196,35 @@ app.post('/teamdata',function(req,res){
 	}
 });
 
+app.post('/deleteTeam',function(req,res){
+	//console.log(req.session.code);
+	if(req.cookies["code"]==allowedID){	
+		console.log("ALLOWED");
+		var id = req.body.team_id;
+		
+		if(!!team_id){
+			connection.query("DELETE FROM teams where id = " + id,[name,miNumber,logoID,status,0],function(err, rows, fields){
+				if(!!err){
+					data["Teams"] = "Error deleting team";
+					console.log(err);
+				}else{
+					statusArray[status]++;
+					data["error"] = 0;
+					data["Teams"] = "Team Added Successfully";
+				}
+				res.json(data);
+			});
+		}else{
+			data["Teams"] = "Please provide all required data";
+			res.json(data);
+		}
+		console.log(data);
+	}
+	else{
+		console.log("Invalid credentials");
+	}
+});
+
 app.post('/login', function(req,res){
 	var username = req.body.username;
 	var password = req.body.password;
@@ -216,6 +245,7 @@ app.post('/login', function(req,res){
 });
 
 app.use('/', express.static(__dirname));
+
 /*app.put('/team',function(req,res){
 	var Id = req.body.id;
 	var Teamname = req.body.teamname;

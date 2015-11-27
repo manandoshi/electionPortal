@@ -53,7 +53,7 @@ app.get('/team',function(req,res){
 		"currSlot": status
 	};
 	if(req.cookies["code"]==allowedID){		
-		connection.query("SELECT * from teams",function(err, rows, fields){
+		connection.query("SELECT * from teams ORDER BY status",function(err, rows, fields){
 			console.log(err);
 			if(rows.length != 0){
 				data["error"] = 0;

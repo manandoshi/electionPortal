@@ -1,0 +1,33 @@
+GET /team
+	Returns a JSON object containing data of ALL teams.
+	data[error] = 0 if no error
+	data[Teams] is an array containing data of all teams
+
+POST /vote
+	Registers vote for/against team
+	Args: 	team_id		-	team_id of team voted
+			value		-	+1 / -1 / 0 depending on vote
+			mi_number	-	mi_number of voter
+			phone		-	phone number of voter
+			name		-	name of voter
+
+GET /statusData
+	Returns an array of length 24. array[i] == number of teams in slot i
+
+GET /listActive
+	Returns a JSON object. object[teams] is an array of all teams active in current slot
+
+POST /teamdata
+	Add team to db.
+	Args:	name		-	name of team
+			mi_number	-	mi number of team(leader?)
+			logoID		-	Logo ID
+			status 		-	Slot
+	Returns JSON object. data[Error] = 0 if no error.
+
+POST /login
+	Sets a cookie. Admin actions allowed only of logged in. [Fails if someone logs in from somewhere else]
+	Args:	username
+			password
+	
+

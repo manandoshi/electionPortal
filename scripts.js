@@ -1,8 +1,27 @@
 var logo = 0;
 var pics = 6;
+var slots = 0;
 
 $(document).ready(function()
 {
+  $.ajax(
+    type: 'GET',
+    url: '/statusData',
+    success: function(data)
+    {
+      slots = data;
+      for (var i = 0; i < slots.length; i++) 
+      {
+        appendstr = "<li>Slot " + i + "(" + slots[i] + ")</li>";
+        $(".dropdown-menu").append(appendstr);
+      };
+      $("li").on("click", funtion()
+      {
+        $(".dropdown-toggle").html($(this).html());
+      }
+      );
+    }
+  )
   for (var i = 0; i < pics; i++) {
     (function(i)
     {
@@ -15,9 +34,10 @@ $(document).ready(function()
 }); 
 
 var submitreg =function() {
+  var slot = Number($(".dropdown-toggle").html().charAt(4));
   var name=$('#name_of_team').val();
   var MInum=$('#mi_number').val();
-  var data = {name_of_team : name, logoID : logo, mi_number : MInum};
+  var data = {name_of_team : name, logoID : logo, mi_number : MInum, status: slot};
   $.post( '/teamdata', data, function(recv) {
          if(recv["error"] == 0)
          {
@@ -25,6 +45,7 @@ var submitreg =function() {
             $('#name_of_team').val("");
             $('#mi_number').val("");
             logo = 0;
+            $(".dropdown-toggle").html("Select Slot");
          }
        },
        'json' // I expect a JSON response

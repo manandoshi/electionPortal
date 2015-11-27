@@ -23,7 +23,7 @@ POST /teamdata
 			mi_number	-	mi number of team(leader?)
 			logoID		-	Logo ID
 			status 		-	Slot
-	Returns JSON object. data[Error] = 0 if no error. data[teams] gives the error.
+	Returns JSON object. data[error] = 0 if no error. data[Teams] gives the error.
 
 POST /login
 	Sets a cookie. Admin actions allowed only of logged in. [Fails if someone logs in from somewhere else]
@@ -33,5 +33,14 @@ POST /login
 POST /deleteTeam
 	Deletes team from DB
 	Args: 	team_id		-	ID of team to be deleted
-	Returns JSON object. data[Error] = 0 if no error. data[teams] gives the error.
+	Returns JSON object. data[error] = 0 if no error. data[Teams] gives the error.
 
+POST /updateTeam
+	Updates team
+	Args:	team_id		-	ID of team to be updated
+			name		-	new name of team
+			mi_number	-	new mi number of team(leader?)
+			logoID		-	new Logo ID
+			status 		-	new Slot
+			vote 		-	(gulp) New vote value.
+	Returns JSON object. data[error] = 0 if no error. data[Teams] gives the error.

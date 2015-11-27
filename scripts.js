@@ -47,6 +47,11 @@ var submitreg =function() {
             logo = 0;
             $(".dropdown-toggle").html("Select Slot");
          }
+
+         else
+         {
+          alert("Error in adding team. Error: "+recv["teams"]);
+         }
        },
        'json' // I expect a JSON response
        // And I'll give you one. 

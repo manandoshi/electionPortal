@@ -40,7 +40,8 @@ $(document).ready(function()
 
 			$(".del").on("click", function()
 			{
-				var id = Number($(this).attr('id').charAt(4));
+				var idstr = $(this).attr('id')
+				var id = Number(idstr.slice(4,idstr.lenth));
 				var data = {team_id : id};
 				$.post( '/deleteTeam', data, function(recv) 
 				{

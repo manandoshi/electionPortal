@@ -20,6 +20,12 @@ $(document).ready(function()
 			for (var i = 0; i < slots; i++) {
 				$(".current").append("<li>"+i+"</li>")
 			};
+
+			$("li").on("click", function()
+			{
+				$(".ehh").html($(this).html());
+			});
+
 			for (var i = 0; i < stuff.length; i++) {
 				appendstr = "<tr>";
 				appendstr += "<td><img src='http://placehold.it/160x100'></td>";
@@ -27,6 +33,7 @@ $(document).ready(function()
 				appendstr += "<td>" + stuff[i]["mi_number"] + "</td>";				
 				appendstr += "<td>" + stuff[i]["status"] + "</td>";
 				appendstr += "<td>" + stuff[i]["vote_count"] + "</td>";
+				appendstr += "<td><button class='btn btn-primary'>Delete</button></td>"
 				appendstr += "</tr>";
 				$("tbody").append(appendstr);
 			};

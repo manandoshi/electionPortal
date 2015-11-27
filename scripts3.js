@@ -1,4 +1,5 @@
 var stuff = 0;
+var slots = 0;
 
 $(document).ready(function()
 {
@@ -9,11 +10,16 @@ $(document).ready(function()
 		success : function(data)
 		{
 			stuff = data["Teams"];
+			slots = data["slots"];
+			curr = data["currSlot"];
 			if(data["error"]==-1){
 				alert("Invalid Cedentials");
 				window.location.replace("/login.html");
 			}
-			console.log(stuff);
+			$(".ehh").html(curr);
+			for (var i = 0; i < slots; i++) {
+				$(".current").append("<li>"+i+"</li>")
+			};
 			for (var i = 0; i < stuff.length; i++) {
 				appendstr = "<tr>";
 				appendstr += "<td><img src='http://placehold.it/160x100'></td>";
@@ -28,3 +34,16 @@ $(document).ready(function()
 	}
 	)
 })
+
+var sendslot = function()
+{
+	var currslot = Number($(".dropdown-toggle").html());
+	var data = {status : currslot};
+	$.post( '/setStatus', data, function(recv) 
+		{
+            window.location.replace("/admin.html")
+       	},
+       'json' // I expect a JSON response
+       // And I'll give you one. 
+    );
+}

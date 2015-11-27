@@ -84,9 +84,20 @@ li:hover{
 }
 
 .admin .dropdown{
+	margin-left: 30px;
 	display: inline-block;
+	position: relative;
+	bottom: 8px;
 }
 
 .inline{
+	position: relative;
 	display: inline-block;
+}
+
+.apply{
+	margin-left: 30px;
+	display: inline-block;
+	position: relative;
+	bottom: 8px;
 }

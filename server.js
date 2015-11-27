@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
 	});
 //app.use(session({secret:'ads'}));
 var statusArray = Array.apply(null, Array(24)).map(Number.prototype.valueOf,0);
-var status = 3;
+var status = 3;  //CURRENT STATUS
 app.use(cookieParser());
 function makeid()
 {
@@ -45,6 +45,44 @@ app.get('/team',function(req,res){
 	};
 	
 	connection.query("SELECT * from teams",function(err, rows, fields){
+		console.log(err);
+		if(rows.length != 0){
+			data["error"] = 0;
+			data["Teams"] = rows;
+			res.json(data);
+			console.log(data);
+		}else{
+			data["Teams"] = 'No teams Found..';
+			res.json(data);
+		}
+	});
+});
+app.get('/leaderboard',function(req,res){
+	var data = {
+		"error":1,
+		"Teams":""
+	};
+	
+	connection.query("SELECT * from teams ORDER BY vote_count DESC",function(err, rows, fields){
+		console.log(err);
+		if(rows.length != 0){
+			data["error"] = 0;
+			data["Teams"] = rows;
+			res.json(data);
+			console.log(data);
+		}else{
+			data["Teams"] = 'No teams Found..';
+			res.json(data);
+		}
+	});
+});
+app.get('/currleaderboard',function(req,res){
+	var data = {
+		"error":1,
+		"Teams":""
+	};
+	
+	connection.query("SELECT * FROM teams WHERE status="+status+" ORDER BY vote_count DESC",function(err, rows, fields){
 		console.log(err);
 		if(rows.length != 0){
 			data["error"] = 0;
@@ -201,6 +239,9 @@ app.post('/deleteTeam',function(req,res){
 	if(req.cookies["code"]==allowedID){	
 		console.log("ALLOWED");
 		var id = req.body.team_id;
+		connection.query("SELECT * FROM teams where id="+id, function(err, rows, fields){
+			statusArray[Number(rows[0]["status"])]--;
+		});
 		
 		if(!!team_id){
 			connection.query("DELETE FROM teams where id = " + id,[name,miNumber,logoID,status,0],function(err, rows, fields){
@@ -208,9 +249,8 @@ app.post('/deleteTeam',function(req,res){
 					data["Teams"] = "Error deleting team";
 					console.log(err);
 				}else{
-					statusArray[status]++;
 					data["error"] = 0;
-					data["Teams"] = "Team Added Successfully";
+					data["Teams"] = "Team Deleted Successfully";
 				}
 				res.json(data);
 			});
@@ -244,16 +284,19 @@ app.post('/login', function(req,res){
 
 });
 
-app.post('/deleteTeam',function(req,res){
+app.post('/updateTeam',function(req,res){
 	//console.log(req.session.code);
 	if(req.cookies["code"]==allowedID){	
 		console.log("ALLOWED");
 		var id = req.body.team_id;
+		connection.query("SELECT * FROM teams where id="+id, function(err, rows, fields){
+			statusArray[Number(rows[0]["status"])]--;
+		});
 		var name = req.body.name_of_team;
 		var miNumber = req.body.mi_number;
 		var logoID = req.body.logoID;
 		var status = req.body.status;
-		var vote = req.body.vote;
+		var vote = req.body.vote_count;
 		
 		if(!!id && !!name && !!miNumber && !!logoID && !!status){
 			connection.query("UPDATE teams SET name ="+name+", mi_number="+miNumber+", logoID="+logoID+", status="+status+", vote_count="+vote+" WHERE id = " + id,function(err, rows, fields){
@@ -277,6 +320,11 @@ app.post('/deleteTeam',function(req,res){
 		console.log("Invalid credentials");
 	}
 });
+
+app.post('/setStatus',function(req,res){
+	var new_status = req.body.status;
+	status = new_status;
+}
 
 app.use('/', express.static(__dirname));
 

@@ -12,7 +12,10 @@ $(document).ready(function()
 			teams = data;
 
 			console.log(teams);
-			
+		//	if(data["error"]==-1){
+		//		alert("Invalid credentials");
+		//		window.location.replace("/login.html");
+		//	}
 			for (var i = 0; i < 4; i++) {
 				console.log("in for: ", $($('.team h3').get(i)).html())
 				$($('.team h3').get(i)).html(teams["teams"][i]["name_of_team"]);

@@ -129,7 +129,7 @@ app.post('/vote', function(req,res){
 	var minum = req.body.mi_number;
 	var ph = req.body.phone;
 	var name = req.body.name;
-	console.log("Name:" + name);
+	//console.log("Name:" + name);
 	var currVotes = 0;
 	connection.query("SELECT * from teams where id = "+team_id, function(err,rows,fields){
 		//console.log("VOTE(select): "+ err);
@@ -227,13 +227,11 @@ app.post('/teamdata',function(req,res){
 });
 
 app.post('/teamdata',function(req,res){
-	////console.log(req.session.code);
 	var data = {
 			"error":1,
 			"Teams":""
 		};
 	if(req.cookies["code"]==allowedID){	
-		//console.log("ALLOWED");
 		var name = req.body.name_of_team;
 		var miNumber = req.body.mi_number;
 		var logoID = req.body.logoID;
@@ -242,7 +240,6 @@ app.post('/teamdata',function(req,res){
 			connection.query("INSERT INTO teams VALUES('',?,?,?,?,?,'')",[name,miNumber,logoID,status,0],function(err, rows, fields){
 				if(!!err){
 					data["Teams"] = "Error Adding team";
-					//console.log(err);
 				}else{
 					statusArray[status]++;
 					data["error"] = 0;
@@ -333,10 +330,10 @@ app.post('/updateTeam',function(req,res){
 		var vote = req.body.vote_count;
 		console.log(req.body);
 		if(!!id && !!name && !!miNumber && !!logoID && !!status){
-			connection.query("UPDATE teams SET name ="+name+", mi_number="+miNumber+", logoID="+logoID+", status="+status+", vote_count="+vote+" WHERE id = " + id,function(err, rows, fields){
+			connection.query("UPDATE teams SET name_of_team ='"+name+"', mi_number='"+miNumber+"', logoID="+logoID+", status="+status+", vote_count="+vote+" WHERE id = " + id,function(err, rows, fields){
 				if(!!err){
 					data["Teams"] = "Error updating team";
-					//console.log(err);
+					console.log("Error updating team: " + err);
 				}else{
 					statusArray[status]++;
 					data["error"] = 0;

@@ -47,12 +47,12 @@ $(document).ready(function()
 				var mi_number		=	stuff[i]["mi_number"];
 				var status 			= 	stuff[i]["status"];
 				var vote_count 		= 	stuff[i]["vote_count"];
-
+				console.log("name_of_team"+name_of_team);
 				$(this).parent().prev().html("<input type=\"text\" class=\"form-control\" id=\"newlogoID\" value="+logoID+">");
-				$(this).parent().next().html("<input type=\"text\" class=\"form-control\" id=\"newmi_number\" value="+mi_number+">");
-				$(this).parent().next().next().html("<input type=\"text\" class=\"form-control\" id=\"newstatus\" value="+status+">");
-				$(this).parent().next().next().next().html("<input type=\"text\" class=\"form-control\" id=\"newvote_count\" value="+vote_count+">");
-				$(this).parent().html("<input type=\"text\" class=\"form-control\" id=\"newname_of_team\" pid="+id+" value="+name_of_team+">");
+				$(this).parent().next().html("<input type=\"text\" class=\"form-control\" id=\"newmi_number\" value=\""+mi_number+"\">");
+				$(this).parent().next().next().html("<input type=\"text\" class=\"form-control\" id=\"newstatus\" value=\""+status+"\">");
+				$(this).parent().next().next().next().html("<input type=\"text\" class=\"form-control\" id=\"newvote_count\" value=\""+vote_count+"\">");
+				$(this).parent().html("<input type=\"text\" class=\"form-control\" id=\"newname_of_team\" pid="+id+" value=\""+name_of_team+"\">");
 				$('#team'+id).html("Update");
 				$('#team'+id).addClass("upd");
 				$('#team'+id).addClass("btn-secondary");
@@ -104,8 +104,8 @@ $(document).ready(function()
 	    			var newid 			= 	$("#newname_of_team").attr("pid");
 	    			var newname_of_team = 	$("#newname_of_team").val();
 	    			var newmi_number 	= 	$("#newmi_number").val();
-	    			var newstatus 		= 	Number($("newstatus").attr("value"));
-	    			var newvote_count 	= 	Number($("newvote_count").attr("value"));
+	    			var newstatus 		= 	Number($("#newstatus").val());
+	    			var newvote_count 	= 	Number($("#newvote_count").val());
 	    			//console.log($("#newstatus"));
 	    			var data = {
 	    				"team_id" 		: 	newid,

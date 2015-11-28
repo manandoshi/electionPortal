@@ -1,7 +1,7 @@
 var stuff = 0;
 var slots = 0;
 var curr = 0;
-
+var updt = false;
 $(document).ready(function()
 {
 	$.ajax(
@@ -39,24 +39,27 @@ $(document).ready(function()
 				$("tbody").append(appendstr);
 			};
 			$(".teamname").on("click", function(){
-				var i = $(this).attr('data-id');
+				if(!updt){
+					var i = $(this).attr('data-id');
 
-				var id 				=	stuff[i]["id"];
-				var logoID			=	stuff[i]["logoID"]
-				var name_of_team 	= 	stuff[i]["name_of_team"];
-				var mi_number		=	stuff[i]["mi_number"];
-				var status 			= 	stuff[i]["status"];
-				var vote_count 		= 	stuff[i]["vote_count"];
-				console.log("name_of_team"+name_of_team);
-				$(this).parent().prev().html("<input type=\"text\" class=\"form-control\" id=\"newlogoID\" value="+logoID+">");
-				$(this).parent().next().html("<input type=\"text\" class=\"form-control\" id=\"newmi_number\" value=\""+mi_number+"\">");
-				$(this).parent().next().next().html("<input type=\"text\" class=\"form-control\" id=\"newstatus\" value=\""+status+"\">");
-				$(this).parent().next().next().next().html("<input type=\"text\" class=\"form-control\" id=\"newvote_count\" value=\""+vote_count+"\">");
-				$(this).parent().html("<input type=\"text\" class=\"form-control\" id=\"newname_of_team\" pid="+id+" value=\""+name_of_team+"\">");
-				$('#team'+id).html("Update");
-				$('#team'+id).addClass("upd");
-				$('#team'+id).addClass("btn-secondary");
-				$('#team'+id).removeClass("btn-primary");
+					var id 				=	stuff[i]["id"];
+					var logoID			=	stuff[i]["logoID"]
+					var name_of_team 	= 	stuff[i]["name_of_team"];
+					var mi_number		=	stuff[i]["mi_number"];
+					var status 			= 	stuff[i]["status"];
+					var vote_count 		= 	stuff[i]["vote_count"];
+					console.log("name_of_team"+name_of_team);
+					$(this).parent().prev().html("<input type=\"text\" class=\"form-control\" id=\"newlogoID\" value="+logoID+">");
+					$(this).parent().next().html("<input type=\"text\" class=\"form-control\" id=\"newmi_number\" value=\""+mi_number+"\">");
+					$(this).parent().next().next().html("<input type=\"text\" class=\"form-control\" id=\"newstatus\" value=\""+status+"\">");
+					$(this).parent().next().next().next().html("<input type=\"text\" class=\"form-control\" id=\"newvote_count\" value=\""+vote_count+"\">");
+					$(this).parent().html("<input type=\"text\" class=\"form-control\" id=\"newname_of_team\" pid="+id+" value=\""+name_of_team+"\">");
+					$('#team'+id).html("Update");
+					$('#team'+id).addClass("upd");
+					$('#team'+id).addClass("btn-secondary");
+					$('#team'+id).removeClass("btn-primary");
+					updt = true;
+				}
 				//$('#team'+id).removeClass("del");
 				//$('#team'+id).attr('class',"btn btn-secondary upd");
 
